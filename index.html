@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo de Áreas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* PALETA DE CORES */
+        :root {
+            --cor-principal: #B39DDB;    /* Lavanda claro (Topo, botões, rodapé) */
+            --cor-destaque: #250d30;     /* Roxo escuro (Títulos dentro da caixinha) */
+            --cor-borda: #CCCCFE;        /* Azul-lavanda (Borda dos campos) */
+            --cor-hover: #250d30;        /* Roxo escuro (Faixa do título principal) */
+            --cor-texto: #243447;        /* Cinza escuro (Textos) */
+            --cor-card: #ffc1ff;         /* Rosa claro (Fundo do quadro) */
+            --cor-texto-claro: #FFFFFF;  /* Branco */
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            /* FUNDO DO SITE: Branco e Lilás */
+            background: linear-gradient(135deg, #FFFFFF, #E6E6FA); 
+            color: var(--cor-texto);
+            text-align: center;
+        }
+
+        /* CABECALHO E REDES SOCIAIS */
+        header {
+            background-color: var(--cor-principal);
+            padding: 20px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+
+        .social-icons a {
+            color: var(--cor-texto-claro);
+            font-size: 24px;
+        }
+
+        .social-icons a:hover {
+            color: var(--cor-texto);
+            font-size: 32px;
+        }
+
+        header h1 {
+            background-color: var(--cor-hover);
+            color: var(--cor-texto-claro); 
+            padding: 15px;
+            margin: 0;
+            border-radius: 8px;
+        }
+
+        /* CARD CENTRAL */
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 15px;
+        }
+
+        .card {
+            background-color: var(--cor-card);
+            color: var(--cor-texto); /* Texto escuro para ler no fundo claro */
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        .card h2 {
+            color: var(--cor-destaque);
+        }
+
+        .card label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .card input {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--cor-borda);
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+            color: var(--cor-texto);
+        }
+
+        .card button {
+            background-color: var(--cor-principal);
+            color: var(--cor-texto-claro);
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .card button:hover {
+            background-color: #9C84C6; 
+        }
+
+        #resultado {
+            color: var(--cor-destaque); /* Trocado para a cor do título para aparecer bem no fundo claro */
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        /* RODAPE */
+        footer {
+            background-color: var(--cor-principal);
+            color: var(--cor-texto-claro);
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+        <h1>Cálculo de Áreas</h1>
+    </header>
+
+    <main>
+        <div class="card">
+            <h2>Calcule seu IMC</h2>
+            <p>Informe seu peso e sua altura.</p>
+
+            <label for="peso">Peso (kg):</label>
+            <input type="number" id="peso" placeholder="Ex.: 70">
+
+            <label for="altura">Altura (metros):</label>
+            <input type="number" id="altura" placeholder="Ex.: 1.75" step="0.01">
+
+            <button onclick="calcularIMC()">Calcular IMC</button>
+
+            <hr style="margin: 20px 0; border: 1px solid rgba(0,0,0,0.1);">
+
+            <h2>Área do Quadrado</h2>
+            <label for="lado">Lado (metros):</label>
+            <input type="number" id="lado" placeholder="Ex.: 5">
+            <button onclick="calcularQuadrado()">Calcular Área</button>
+
+            <hr style="margin: 20px 0; border: 1px solid rgba(0,0,0,0.1);">
+
+            <h2>Área do Círculo</h2>
+            <label for="raio">Raio (metros):</label>
+            <input type="number" id="raio" placeholder="Ex.: 3">
+            <button onclick="calcularCirculo()">Calcular Área</button>
+
+            <p id="resultado"></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>Desenvolvido por Rafaela</p>
+    </footer>
+
+    <script>
+        function calcularIMC() {
+            let peso = Number(document.getElementById("peso").value);
+            let altura = Number(document.getElementById("altura").value);
+
+            if (peso <= 0 || altura <= 0) {
+                document.getElementById("resultado").textContent = "Digite um peso e uma altura válidos!";
+                document.getElementById("peso").value = "";
+                document.getElementById("altura").value = "";
+                return;
+            }
+
+            let imc = peso / (altura * altura);
+            document.getElementById("resultado").textContent = "Seu IMC é " + imc.toFixed(2);
+        }
+
+        function calcularQuadrado() {
+            let lado = Number(document.getElementById("lado").value);
+
+            if (lado <= 0) {
+                document.getElementById("resultado").textContent = "Digite um lado válido!";
+                document.getElementById("lado").value = "";
+                return;
+            }
+
+            let area = lado * lado;
+            document.getElementById("resultado").textContent = "A área do quadrado é " + area.toFixed(2);
+        }
+
+        function calcularCirculo() {
+            let raio = Number(document.getElementById("raio").value);
+
+            if (raio <= 0) {
+                document.getElementById("resultado").textContent = "Digite um raio válido!";
+                document.getElementById("raio").value = "";
+                return;
+            }
+
+            let area = Math.PI * raio * raio;
+            document.getElementById("resultado").textContent = "A área do círculo é " + area.toFixed(2);
+        }
+    </script>
+</body>
+</html>
